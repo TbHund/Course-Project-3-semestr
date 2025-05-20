@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 
     {% comment %} css {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=1.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.0">
 
 </head>
 <body>
@@ -28,7 +28,7 @@
             <a href="#" class="h-profile">
                 <img src="{% static 'img/profile.png' %}" alt="">
             </a>
-            <a href="#" class="h-profile">
+            <a href="{% url 'cart:cart_detail' %}" class="h-profile">
                 <img src="{% static 'img/cart.png' %}" alt="">
             </a>
             <div class="forsearch">
