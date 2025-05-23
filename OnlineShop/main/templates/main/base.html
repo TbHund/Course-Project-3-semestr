@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
 
     {% comment %} css {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=2.0">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}?v=6.0">
 
 </head>
 <body>
@@ -25,7 +25,7 @@
             </form>
         </div> {% endcomment %}
         <div class="header-nav d-flex gap-4">
-            <a href="#" class="h-profile">
+            <a href="{% url 'users:profile' %}" class="h-profile">
                 <img src="{% static 'img/profile.png' %}" alt="">
             </a>
             <a href="{% url 'cart:cart_detail' %}" class="h-profile">
