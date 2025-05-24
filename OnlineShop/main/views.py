@@ -1,7 +1,13 @@
 from django.views.generic import ListView, DetailView
 from .models import ClothingItem, Category, Size, \
-    ClothingItemSize
+    ClothingItemSize, ItemImage
 from django.db.models import Q
+
+
+######
+import json
+from .utils.serializers import custom_serializer
+from django.shortcuts import render, get_object_or_404
 
 
 class CatalogView(ListView):
@@ -68,3 +74,23 @@ class ClothingItemDetailView(DetailView):
                                                            available=True)
         context['available_sizes'] = available_sizes
         return context
+    
+
+def all_products_json(request):
+    # Получаем все товары с оптимизацией запросов
+    products = ClothingItem.objects.prefetch_related(
+        'images',
+        'clothingitemsize_set__size'
+    ).all()
+    
+    # Сериализуем данные
+    products_json = json.dumps(
+        list(products),  # преобразуем QuerySet в список
+        default=custom_serializer,
+        ensure_ascii=False,
+        indent=2
+    )
+    
+    return render(request, 'main/product/seria.html', {
+        'seria': products_json
+    })

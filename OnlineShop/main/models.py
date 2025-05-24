@@ -7,6 +7,12 @@ class Size(models.Model):
     def __str__(self):
         return self.name
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'class_name': 'Size'  # мета-информация о классе
+        }
 
 
 class Category(models.Model):
@@ -16,6 +22,15 @@ class Category(models.Model):
     def __str__(self):
         return self.name
     
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'slug': self.slug,
+            'item_count': self.get_item_count(),  # включаем количество товаров
+            'class_name': 'Category'  # мета-информация о классе
+        }
+
     class Meta:
         ordering = ['name']
         indexes = [models.Index(fields=['name'])]
@@ -49,6 +64,23 @@ class ClothingItem(models.Model):
             return self.price * (1 - (self.discount / 100))
         return self.price
     
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "slug": self.slug,
+            "available": self.available,
+            "sizes": [cis.to_dict() for cis in self.clothingitemsize_set.all()],
+            "category": self.category.to_dict() if self.category else None,
+            "images": [img.to_dict() for img in self.images.all()],
+            "description": self.description,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "price": float(self.price),
+            "discount": float(self.discount),
+            "price_with_discount": float(self.get_price_with_discount())
+        }
+    
 
 class ClothingItemSize(models.Model):
     clothing_item = models.ForeignKey(ClothingItem, on_delete=models.CASCADE)
@@ -57,6 +89,12 @@ class ClothingItemSize(models.Model):
 
     class Meta:
         unique_together = ('clothing_item', 'size')
+
+    def to_dict(self):
+        return {
+            "size": self.size.to_dict() if self.size else None,
+            "available": self.available
+        }
 
 
 class ItemImage(models.Model):
@@ -67,3 +105,9 @@ class ItemImage(models.Model):
     
     def __str__(self):
         return f'{self.product.name} - {self.image.name}'
+    
+    def to_dict(self):
+        return {
+            "image_url": self.image.url if self.image else None,
+            "filename": self.image.name
+        }
