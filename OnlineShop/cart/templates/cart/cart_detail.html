@@ -1,7 +1,7 @@
 {% extends "main/base.html" %}
 {% load static %}
 
-{% block title %}Reverence Interlude - Cart{% endblock title %}
+{% block title %}Shop - Cart{% endblock title %}
 
 {% block content %}
     <h1 class="text-center mb-5">Shopping Cart</h1>
@@ -56,7 +56,7 @@
     </div>
     {% if cart|length > 0 %}
         <h3 class="total_price_cart mt-5">Total price: ${{ cart.get_total_price|floatformat:2 }}</h3>
-        <a href="#" class="default-btn mt-3">Create order</a>
+        <a href="{% url 'orders:order_create' %}" class="default-btn mt-3">Create order</a>
     {% endif %}
 
     <script>

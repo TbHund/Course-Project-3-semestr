@@ -4,7 +4,7 @@ from .forms import UserRegistrationForm, UserLoginForm, \
     UserProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-#from orders.models import Order
+from orders.models import Order
 
 
 def register(request):
@@ -55,9 +55,9 @@ def profile(request):
         
     else:
         form = UserProfileForm(instance=user)
-    #orders = Order.objects.filter(user=user)
+        orders = Order.objects.filter(user=user)
 
     return render(request, 'users/profile.html', {
         'form': form,
-        #'orders': orders,
+        'orders': orders,
     })
