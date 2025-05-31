@@ -83,9 +83,9 @@ def all_products_json(request):
         'clothingitemsize_set__size'
     ).all()
     
-    # Сериализуем данные
+
     products_json = json.dumps(
-        list(products),  # преобразуем QuerySet в список
+        list(products), 
         default=custom_serializer,
         ensure_ascii=False,
         indent=2

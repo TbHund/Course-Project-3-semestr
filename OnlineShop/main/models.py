@@ -11,7 +11,7 @@ class Size(models.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'class_name': 'Size'  # мета-информация о классе
+            'class_name': 'Size' 
         }
 
 
@@ -27,8 +27,8 @@ class Category(models.Model):
             'id': self.id,
             'name': self.name,
             'slug': self.slug,
-            'item_count': self.get_item_count(),  # включаем количество товаров
-            'class_name': 'Category'  # мета-информация о классе
+            'item_count': self.get_item_count(),  
+            'class_name': 'Category'  
         }
 
     class Meta:
