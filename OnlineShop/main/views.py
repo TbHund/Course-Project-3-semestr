@@ -3,10 +3,8 @@ from .models import ClothingItem, Category, Size, \
     ClothingItemSize, ItemImage
 from django.db.models import Q
 
-
-######
-import json
-from .utils.serializers import custom_serializer
+#сериализатор
+from .utils.serializers import SimpleSerializer
 from django.shortcuts import render, get_object_or_404
 
 
@@ -76,21 +74,16 @@ class ClothingItemDetailView(DetailView):
         return context
     
 
-def all_products_json(request):
-    # Получаем все товары с оптимизацией запросов
+def all_products_serialized(request):
+    #получить все товары из магазина для сериализации
     products = ClothingItem.objects.prefetch_related(
         'images',
         'clothingitemsize_set__size'
     ).all()
     
-
-    products_json = json.dumps(
-        list(products), 
-        default=custom_serializer,
-        ensure_ascii=False,
-        indent=2
-    )
+    products_data = [product.to_dict() for product in products]
+    serialized = SimpleSerializer.serialize(products_data, indent=3)
     
     return render(request, 'main/product/seria.html', {
-        'seria': products_json
+        'seria': serialized
     })

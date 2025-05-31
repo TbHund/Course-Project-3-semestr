@@ -7,5 +7,5 @@ app_name = 'main'
 urlpatterns = [
     path('', CatalogView.as_view(), name='catalog'),
     path('item/<slug:slug>/', ClothingItemDetailView.as_view(), name='clothing_item_detail'),
-    path('products/json/', views.all_products_json, name='all-products-json')
+    path('seria/', views.all_products_serialized, name='products_serialized')
 ]
